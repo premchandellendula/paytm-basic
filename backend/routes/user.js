@@ -119,7 +119,7 @@ router.put('/', authMiddleware, async (req, res)=> {
     })
 })
 
-router.get('/users', authMiddleware, async (req, res) => {
+router.get('/users', async (req, res) => {
     const filter = req.query.filter || "";
 
 
