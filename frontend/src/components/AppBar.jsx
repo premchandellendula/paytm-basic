@@ -3,7 +3,7 @@ import React from 'react'
 const AppBar = ({firstname}) => {
   return (
     <div className='shadow h-14 flex justify-between'>
-      <div className='flex flex-col justify-center h-full ml-4'>ZuPay</div>
+      <div className='flex flex-col justify-center h-full ml-4 font-medium text-xl'>ZuPay</div>
       <div className='flex'>
         <div className='flex flex-col justify-center h-full mr-4'>
           Hello, {firstname}
