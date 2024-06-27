@@ -145,4 +145,38 @@ router.get('/users', async (req, res) => {
     })
 })
 
+router.get('/user', authMiddleware, async (req, res) => {
+    const userId = req.userId
+
+    const user = await User.findOne({
+        _id: userId
+    })
+
+    // const account = await Account.findOne({
+    //     userId: userId
+    // })
+
+    // if(account){
+    //     res.json({
+    //         balance: account.balance
+    //     })
+
+    //     return 
+    // }
+
+    if(user){
+        const account = await Account.findOne({userId: userId})
+        res.json({
+            firstname: user.firstname,
+            balance: account ? account.balance : 0
+        })
+
+        return 
+    }
+
+    res.json({
+        message: "Error while logging in"
+    })
+})
+
 module.exports = router;

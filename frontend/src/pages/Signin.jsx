@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 const Signin = () => {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [firstname, setFirstName] = useState('');
   const navigate = useNavigate();
   return (
     <div className='bg-slate-300 h-screen flex justify-center'>
@@ -34,7 +35,15 @@ const Signin = () => {
 
                       // console.log(response.data.token)
                       localStorage.setItem("token", response.data.token)
-                      navigate('/dashboard')
+
+                      const userResponse = await axios.get("http://localhost:3000/api/v1/user/user", {
+                        headers: {
+                          Authorization: "Bearer " + response.data.token
+                        }
+                      })
+
+                      setFirstName(userResponse.data.firstname)
+                      navigate('/dashboard', {state: {firstname: userResponse.data.firstname}})
                     }} label={"Sign In"} />
                 </div>
                 <BottomWarning label={"Don't have an account?"} buttonText={"Sign Up"} to={'/signup'}/>

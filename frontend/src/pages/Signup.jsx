@@ -13,6 +13,7 @@ const Signup = () => {
   const [lastname, setLastName] = useState('')
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
+  const [balance, setBalance] = useState(0)
   const navigate = useNavigate();
   return (
     <div className='bg-slate-300 h-screen flex justify-center'>
@@ -46,7 +47,20 @@ const Signup = () => {
                       })
                       // console.log(response.data.token)
                       localStorage.setItem("token", response.data.token)
-                      navigate('/dashboard')
+
+                      const userResponse = await axios.get("http://localhost:3000/api/v1/user/user", {
+                        headers: {
+                          Authorization: "Bearer " + response.data.token
+                        }
+                      })
+                      // console.log(userResponse.data.balance)
+                      setBalance(userResponse.data.balance)
+                      const amount = (userResponse.data.balance)
+                      const total = amount.toFixed(2) 
+                      
+                      if(username && password){
+                        navigate('/dashboard', {state: {firstname, balance: total}})
+                      }
                     }} label={"Sign Up"}/>
                 </div>
                 <BottomWarning label={"Already have an account?"} buttonText={"Sign In"} to={'/signin'}/>
