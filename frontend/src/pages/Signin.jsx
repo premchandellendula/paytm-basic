@@ -11,6 +11,7 @@ const Signin = () => {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [firstname, setFirstName] = useState('');
+  const [balance, setBalance] = useState(0);
   const navigate = useNavigate();
   return (
     <div className='bg-slate-300 h-screen flex justify-center'>
@@ -41,9 +42,12 @@ const Signin = () => {
                           Authorization: "Bearer " + response.data.token
                         }
                       })
-
+                      // console.log(userResponse.data.balance)
                       setFirstName(userResponse.data.firstname)
-                      navigate('/dashboard', {state: {firstname: userResponse.data.firstname}})
+                      setBalance(userResponse.data.balance)
+                      const amount = (userResponse.data.balance)
+                      const total = amount.toFixed(2) 
+                      navigate('/dashboard', {state: {firstname: userResponse.data.firstname, balance: total}})
                     }} label={"Sign In"} />
                 </div>
                 <BottomWarning label={"Don't have an account?"} buttonText={"Sign Up"} to={'/signup'}/>
